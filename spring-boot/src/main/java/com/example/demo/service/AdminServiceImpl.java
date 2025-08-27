@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Admin;
 import com.example.demo.form.LoginForm;
+import com.example.demo.form.SignupForm;
 import com.example.demo.repository.AdminRepository;
 
 // implでSQLから取得したいデータのロジックを書いて、Serviceで呼び出す。
@@ -20,21 +21,25 @@ public class AdminServiceImpl implements AdminService {
 	public void getAdmin(LoginForm loginForm) {
 		Admin admin = new Admin();
 		admin.setEmail(loginForm.getEmail());
-		admin.setRoles(loginForm.getRole());
 	}
 	
 	 //@Override
 	 // ここ最初から入っているAdminの場合は、これ使わない。
 	 // 後でAdminの新規登録の時にこれを使う。
-//	public void saveAdmin(LoginForm adminForm) {
-//		Admin admin = new Admin();
-//		
-//        admin.setLastName(adminForm.getLastName());
-//        admin.setFirstName(adminForm.getFirstName());
-//        admin.setEmail(adminForm.getEmail());
-//        admin.setPassword(adminForm.getPassword());
-//        
-//        adminRepository.save(admin);
-//	}
+	public void saveAdmin(SignupForm signupForm) {
+		
+		Admin admin = new Admin();//admin.javaから来ている。
+		
+        admin.setShopId(signupForm.getShop_id());//なんでこれはShop_idでいけたんだろう。。
+        admin.setPosition(signupForm.getPosition());
+        admin.setFirstName(signupForm.getFirstName());
+        admin.setLastName(signupForm.getLastName());
+        admin.setEmail(signupForm.getEmail());
+        admin.setPhoneNumber(signupForm.getPhoneNumber());
+        admin.setAge(signupForm.getAge());
+        admin.setPassword(signupForm.getPassword());
+        
+        adminRepository.save(admin);
+	}
 
 }

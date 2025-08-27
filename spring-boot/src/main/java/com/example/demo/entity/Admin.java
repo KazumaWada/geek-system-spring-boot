@@ -26,26 +26,40 @@ public class Admin {
 	@Column(name = "id")
 	private Long id;
 	
+//	@OneToOne
+//	@JoinColumn(name = "shop_id")// テーブルを明記せずにshop_idだけで、usersテーブルのSQLを参照して自動で認識してくれている。
+//	private Long shopId;
+
+	@Column(name = "shop_id")
+	private Integer shopId; // DBはintだから、long(bigint)にすると、整合性が取れない。
+	
+	//役職
+	@Column(name = "position", nullable = false)
+	private String position;
+	
+//	@OneToOne
+//	@JoinColumn(name = "role_id")// テーブルを明記せずにshop_idだけで、usersテーブルのSQLを参照して自動で認識してくれている。
+//	private Role role;
+	
 	@Column(name = "last_name", nullable = false)
-	private String last_name; //lastnameではなくてDBカラムと統一したほうがいい。
+	private String lastName; //lastnameではなくてDBカラムと統一したほうがいい。
 	
 	@Column(name = "first_name", nullable = false)
-	private String first_name;
-	
-	@Column(name = "position", nullable = false)
-	private Integer position;
-	
-	@Column(name = "age", nullable = false)
-	private Integer age;
+	private String firstName;
 	
 	@Column(name = "email", nullable = false)
 	private String email;
 	
+	@Column(name = "phone_number", nullable = false)
+	private Long phoneNumber;
+	
+	@Column(name = "age", nullable = false)
+	private Integer age;
+	
 	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(name = "role", nullable = false)
-	private String roles;
+	
 }
 
 

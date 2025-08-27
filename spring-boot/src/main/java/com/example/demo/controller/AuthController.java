@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,10 +16,46 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.form.LoginForm;
+import com.example.demo.form.SignupForm;
+import com.example.demo.service.AdminService;
 
 @Controller
 public class AuthController {
+	@Autowired
+	private AdminService adminService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+	
+	@GetMapping({"/signup"})
+	public String signup(Model model) {
+		model.addAttribute("signupForm", new SignupForm());
+		
+		
+		return "signup";
+	}
+	
+	@PostMapping({"/signup"})
+    public String signup(@Validated @ModelAttribute("signupForm") SignupForm signupForm, BindingResult errorResult) {
+		if (errorResult.hasErrors()) {
+			return "signup";//同じページにいることで、エラーのオブジェクトが保たれて、タイムリーふで表示できる。
+		}
+		logger.info("エラーは出ずに通過しました。");
+		// passwordのhash化
+		String encodedPassword = passwordEncoder.encode(signupForm.getPassword());
+		signupForm.setPassword(encodedPassword);
+		adminService.saveAdmin(signupForm);
+		
+		// 後でhomeのHTML作る。
+		return "redirect:/home";
+	}
+	
+	@GetMapping({"/home"})
+	public String home() {
+		return "home";
+	}
+	
 	
 	@GetMapping({"/login"})
 	// ここでLoginFormのmodel,entityを変数Modelで突っ込む。
@@ -60,8 +98,8 @@ public class AuthController {
 				model.addAttribute("loginForm", loginForm);
 			return "loginsuccess";
 		}
-	
-	}
+
+}
 
 
 // 一番近い「送信ロジック」はこれかな。
