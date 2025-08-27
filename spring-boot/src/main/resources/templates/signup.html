@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>新規登録</title>
+</head>
+<body>
+
+	<h1>Geekシステムユーザー登録</h1>
+	
+	<form th:action="@{/signup}" th:object="${signupForm}" method="post">
+		
+		<p>店舗</p>
+		<select th:field="*{shop_id}">
+			<option value="">選択してください</option>
+			 <option value="1">Geek電機 渋谷店</option>
+			 <option value="2">Geek電機 新宿店</option>
+			 <option value="3">Geek電機 池袋店</option>
+		</select>
+		
+		<p>役職</p><!--ここで選択させて文字列として送信した方がやり方は楽な気がする。-->
+	<select th:field="*{position}">
+		<option value="">選択してください</option>
+		 <option value="店長">店長</option>
+		 <option value="副店長">副店長</option>
+		 <option value="マネージャー">マネージャー</option>
+		 <option value="一般従業員">一般従業員</option>
+		 <option value="パート・アルバイト">パート・アルバイト</option>
+	</select>
+
+		<p>姓</p>
+		<input type="text" th:field="*{firstName}">
+		<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color: red;"></span>
+		
+		<p>名</p>
+		<input type="text" th:field="*{lastName}">
+		<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color: red;"></span>
+
+	
+	<p>Email</p>
+	<input type="text" th:field="*{email}">
+	<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></span>
+	
+
+		
+
+	<p>電話番号</p>
+	<input type="text" th:field="*{phoneNumber}">
+	<span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" style="color: red;"></span>
+	
+	<p>年齢</p>
+	<input type="text" th:field="*{age}">
+	<span th:if="${#fields.hasErrors('age')}" th:errors="*{age}" style="color: red;"></span>
+
+	<p>パスワード</p>
+		<input type="text" th:field="*{password}">
+		<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></span>
+	
+
+	<input type="submit" value="送信">
+	</form>
+
+</body>
+</html>
